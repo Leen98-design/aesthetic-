@@ -1,0 +1,55 @@
+// Sample data for images and links (can be replaced with real data)
+const data = {
+    decor: [
+        { src: 'decor1.jpg', link: 'https://affiliate-link.com/decor1' },
+        { src: 'decor2.jpg', link: 'https://affiliate-link.com/decor2' },
+    ],
+    makeup: [
+        { src: 'makeup1.jpg', link: 'https://affiliate-link.com/makeup1' },
+        { src: 'makeup2.jpg', link: 'https://affiliate-link.com/makeup2' },
+    ],
+    other: [
+        { src: 'other1.jpg', link: 'https://affiliate-link.com/other1' },
+        { src: 'other2.jpg', link: 'https://affiliate-link.com/other2' },
+    ],
+};
+
+// Click count variable
+let clickCount = 0;
+
+// Handle category button clicks
+document.querySelectorAll('.category-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const category = button.getAttribute('data-category');
+        displayImages(category);
+    });
+});
+
+// Display images based on selected category
+function displayImages(category) {
+    const content = document.getElementById('content');
+    content.innerHTML = ''; // Clear existing images
+    data[category].forEach(item => {
+        const img = document.createElement('img');
+        img.src = item.src;
+        img.alt = `${category} image`;
+        img.onclick = () => {
+            window.open(item.link, '_blank');
+            updateClickCount();
+        };
+        content.appendChild(img);
+    });
+    content.classList.remove('hidden');
+}
+
+// Update and display click count
+function updateClickCount() {
+    clickCount++;
+    document.getElementById('clickCountDisplay').textContent = `${clickCount} clicks`;
+}
+
+// Show click count when three dots button is clicked
+document.getElementById('clickCounter').addEventListener('click', () => {
+    const clickDisplay = document.getElementById('clickCountDisplay');
+    clickDisplay.classList.toggle('hidden');
+});
